@@ -10,7 +10,7 @@ public class CharacterSortingTest {
         String inputText = "When not studying nuclear physics, Bambi likes to play\n" +
                 "beach volleyball.";
         String expectedOutputText = "aaaaabbbbcccdeeeeeghhhiiiiklllllllmnnnnooopprsssstttuuvwyyyy";
-        CharacterSorting characterSorting = new CharacterSorting();
-        Assert.assertEquals(expectedOutputText, characterSorting.sort(inputText));
+        
+        Assert.assertEquals(expectedOutputText, CharacterSorting.sort(inputText));
     }
 }
