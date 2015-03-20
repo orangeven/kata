@@ -6,11 +6,11 @@ import java.util.List;
 public class CharacterSorting {
 
     private static List<Character> asciiList = createAsciiList();
-    
-    public static String sort(String text) {
+
+    public static String quickSort(String text) {
         String lowerText = text.toLowerCase();
         String result = "";
-        
+
         for (Character character : asciiList) {
             int occurrence = countOccurrence(lowerText, character);
             result += getMatchedText(character, occurrence);
@@ -36,12 +36,14 @@ public class CharacterSorting {
     }
 
     private static int countOccurrence(String text, Character charToSearch) {
-        int counter = 0;
-        for (char character : text.toCharArray()) {
-            if (character == charToSearch) {
-                counter++;
-            }
-        }
-        return counter;
+        return (int) text.chars().filter(charCode -> charCode == charToSearch).count();
+    }
+
+
+    public static String sort(String text){
+        //TODO
+        return "";
     }
 }
+
+

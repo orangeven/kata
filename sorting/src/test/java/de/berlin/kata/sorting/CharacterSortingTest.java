@@ -11,6 +11,6 @@ public class CharacterSortingTest {
                 "beach volleyball.";
         String expectedOutputText = "aaaaabbbbcccdeeeeeghhhiiiiklllllllmnnnnooopprsssstttuuvwyyyy";
         
-        Assert.assertEquals(expectedOutputText, CharacterSorting.sort(inputText));
+        Assert.assertEquals(expectedOutputText, CharacterSorting.quickSort(inputText));
     }
 }
