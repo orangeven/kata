@@ -1,0 +1,46 @@
+Kata12: Best Sellers
+
+Solution.
+
+
+1. How would you implement this?
+- There is a job which call the TopProductService every hour to load the top products from database and keep the list in memory.
+- Class design
+-- TopProductService
+--- getTopProducts(): List<Product>
+--- updateTopProducts(topNumbers, duration): void
+-- Product
+--- name
+--- id
+--- url
+
+
+2. Are there any changes you could ask for to make the implementation easier?
+- only 1 server. The best seller list is not shared with other servers.
+- all the user see the same list
+
+
+
+3. What would be the impact if they later came back and said:
+3.1. only update the list once per day
+- very small. change only the job configutaion to run the job once per day. 
+3.2. we need the list updated in real time: each time the home page is displayed we need the list to reflect the 24 hours up until that point.
+- very big impact. need a new implementation! 
+- concept: wenn a product is sold, a asynchron event: "productSold" with the product name(assuming product name is unique) is also raised. The Event will be caught by ProductStatisticService which will increase the product sold counter by 1 in database(table:ProductStatistic) and also call TopProductService to reset the top product list. TopProductService returns the top product list from memory if it is not reset or load it from ProductStatistic in database.
+- Class Design
+-- ProductSellingService
+--- checkout(): 
+---- raise asynchron event: "productSold" with the product name at the end
+-- ProductStatisticService
+--- updateStatistic(productName):void  
+---- observe event "productSold"
+---- update productSoldStatistic: increase soldNumber of the product by 1
+---- call topProductService.reset() at the end
+-- ProductSoldStatistic
+--- name
+--- url
+--- soldNumber
+-- TopProductService
+--- getTopProducts(): List<Product>
+---- load the list from memory or database.
+--- reset():void
