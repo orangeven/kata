@@ -9,6 +9,7 @@ import org.junit.Test;
 public class CodeCounterTest {
 
 
+    //TODO
     @Test
     public void countInterface(){
         String code="// This file contains 3 lines of code\n" +
@@ -18,9 +19,10 @@ public class CodeCounterTest {
                 "    */\n" +
                 "   int countLines(File inFile); // not the real signature!\n" +
                 "}" ;
-        Assert.assertEquals(3, new CodeCounter().countLines(code));
+        Assert.assertEquals(3, CodeCounter.countLines(code));
     }
 
+    //TODO add test for block comment greedy
     @Test
     public void countClass(){
         String code ="/*****\n" +
@@ -35,24 +37,24 @@ public class CodeCounterTest {
                 "       }\n" +
                 "  \n" +
                 "  }";
-        Assert.assertEquals(5, new CodeCounter().countLines(code));
+        Assert.assertEquals(5, CodeCounter.countLines(code));
     }
 
     @Test
     public void codeLineWithSingleCommentAtTheEndShouldBeCountedAsCode(){
         String code = "  int i = 0; // single comment line  ";
-        Assert.assertEquals(1, new CodeCounter().countLines(code));
+        Assert.assertEquals(1, CodeCounter.countLines(code));
     }
 
     @Test
     public void singleLineCommentShouldNotBeCountedAsCode() {
         String code = "   // single comment line  ";
 
-        Assert.assertEquals(0, new CodeCounter().countLines(code));
+        Assert.assertEquals(0, CodeCounter.countLines(code));
 
         code = "/////single comment line";
 
-        Assert.assertEquals(0, new CodeCounter().countLines(code));
+        Assert.assertEquals(0, CodeCounter.countLines(code));
     }
 
     @Test

@@ -7,14 +7,14 @@ import java.util.regex.Pattern;
  */
 public class CodeCounter {
 
-    public int countLines(String code) {
+    public static int countLines(String code) {
         String effectiveCode= removeBlockComment(code);
         effectiveCode = removeSingleComment(effectiveCode);
         effectiveCode = removeEmptyLine(effectiveCode);
         return getCodeLines(effectiveCode);
     }
 
-    private int getCodeLines(String code) {
+    private static int getCodeLines(String code) {
         String trimmedcode = code.trim();
         if(trimmedcode.equals("")) {
             return 0;
@@ -23,15 +23,15 @@ public class CodeCounter {
         }
     }
 
-    private String removeEmptyLine(String code) {
+    private static String removeEmptyLine(String code) {
         return code.replaceAll("(?m)^\\s*","");
     }
 
-    private String removeSingleComment(String code) {
+    private static String removeSingleComment(String code) {
         return code.replaceAll("\\s*//.*","");
     }
 
-    private String removeBlockComment(String code) {
+    private static String removeBlockComment(String code) {
         return code.replaceAll("(?s)/\\*.+?\\*/", "");
     }
 
