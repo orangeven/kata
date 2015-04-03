@@ -1,10 +1,5 @@
 package de.berlin.kata.countingCodeLines;
 
-import java.util.regex.Pattern;
-
-/**
- * Created by quan on 02.04.15.
- */
 public class CodeCounter {
 
     public static int countLines(String code) {
