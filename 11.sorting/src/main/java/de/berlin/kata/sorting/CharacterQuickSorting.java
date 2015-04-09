@@ -1,7 +1,7 @@
 package de.berlin.kata.sorting;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.IntStream;
 
 /**
  * @author weng
@@ -10,28 +10,45 @@ import java.util.List;
 public class CharacterQuickSorting {
 
     private static List<Character> asciiList = createAsciiList();
+    private Map<Character, Integer> characterCounters;
 
     public String sort(String text) {
         String normalizeText = normalizeText(text);
-        String result = "";
+        initCharacterCounter();
+        countCharacters(normalizeText);
+        return buildResultString();
+    }
 
-        for (Character character : asciiList) {
-            int occurrence = countOccurrence(normalizeText, character);
-            result += getMatchedText(character, occurrence);
+    private String buildResultString() {
+        StringBuilder result = new StringBuilder("");
+        for (Map.Entry<Character, Integer> entry : characterCounters.entrySet()) {
+            Character character = entry.getKey();
+            Integer count = entry.getValue();
+            for (int i = 0; i < count; i++) {
+                result.append(character);
+            }
         }
-        return result;
+        return result.toString();
+    }
+
+    private void countCharacters(String normalizeText) {
+        normalizeText.chars().forEach(charCode -> {
+            char character = (char) charCode;
+            Integer count = characterCounters.get(character);
+            if (count != null) {
+                count++;
+                characterCounters.put(character, count);
+            }
+        });
+    }
+
+    private void initCharacterCounter() {
+        characterCounters = new LinkedHashMap<>();
+        asciiList.stream().forEach(c -> characterCounters.put(c, 0));
     }
 
     private String normalizeText(String text) {
-        return text.replaceAll("[^a-zA-Z]]","").toLowerCase();
-    }
-
-    private String getMatchedText(Character character, int occurrence) {
-        String result = "";
-        for (int i = 0; i < occurrence; i++) {
-            result += character;
-        }
-        return result;
+        return text.replaceAll("[^a-zA-Z]]", "").toLowerCase();
     }
 
     private static List<Character> createAsciiList() {
@@ -41,9 +58,5 @@ public class CharacterQuickSorting {
             ascii.add(c);
         }
         return ascii;
-    }
-
-    private int countOccurrence(String text, Character charToSearch) {
-        return (int) text.chars().filter(charCode -> charCode == charToSearch).count();
     }
 }
