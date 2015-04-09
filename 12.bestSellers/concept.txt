@@ -8,17 +8,15 @@ Solution.
 - Class design
 -- TopProductService
 --- getTopProducts(): List<Product>
---- updateTopProducts(topNumbers, duration): void
+--- reloadTopProducts(topNumber, duration): void
 -- Product
 --- name
---- id
 --- url
 
 
 2. Are there any changes you could ask for to make the implementation easier?
 - only 1 server. The best seller list is not shared with other servers.
 - all the user see the same list
-
 
 
 3. What would be the impact if they later came back and said:
