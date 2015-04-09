@@ -9,16 +9,12 @@ public class CharacterSortingTest {
     private static final String expectedOutputText = "aaaaabbbbcccdeeeeeghhhiiiiklllllllmnnnnooopprsssstttuuvwyyyy";
 
     @Test
-    public void testQuickSortingCharacters() {
-        long start = System.currentTimeMillis();
-        Assert.assertEquals(expectedOutputText, CharacterQuickSorting.sort(inputText));
-        System.out.println("time for quick sort: " + (System.currentTimeMillis() - start));
+    public void testSortingCharacters() {
+        Assert.assertEquals(expectedOutputText, new CharacterSorting().sort(inputText));
     }
 
     @Test
-    public void testSortingCharacters() {
-        long start = System.currentTimeMillis();
-        Assert.assertEquals(expectedOutputText, CharacterSorting.sort(inputText));
-        System.out.println("time for normal sort: " + (System.currentTimeMillis() - start));
+    public void testQuickSortingCharacters() {
+        Assert.assertEquals(expectedOutputText, new CharacterQuickSorting().sort(inputText));
     }
 }

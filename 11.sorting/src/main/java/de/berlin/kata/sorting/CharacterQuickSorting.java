@@ -9,9 +9,9 @@ import java.util.List;
  */
 public class CharacterQuickSorting {
 
-    private static List<Character> asciiList = createAsciiList();
+    private List<Character> asciiList = createAsciiList();
 
-    public static String sort(String text) {
+    public String sort(String text) {
         String lowerText = text.toLowerCase();
         String result = "";
 
@@ -22,7 +22,7 @@ public class CharacterQuickSorting {
         return result;
     }
 
-    private static String getMatchedText(Character character, int occurrence) {
+    private String getMatchedText(Character character, int occurrence) {
         String result = "";
         for (int i = 0; i < occurrence; i++) {
             result += character;
@@ -30,7 +30,7 @@ public class CharacterQuickSorting {
         return result;
     }
 
-    private static List<Character> createAsciiList() {
+    private List<Character> createAsciiList() {
         List<Character> ascii = new ArrayList<>(26);
 
         for (char c = 'a'; c <= 'z'; c++) {
@@ -39,7 +39,7 @@ public class CharacterQuickSorting {
         return ascii;
     }
 
-    private static int countOccurrence(String text, Character charToSearch) {
+    private int countOccurrence(String text, Character charToSearch) {
         return (int) text.chars().filter(charCode -> charCode == charToSearch).count();
     }
 }
