@@ -9,17 +9,21 @@ import java.util.List;
  */
 public class CharacterQuickSorting {
 
-    private List<Character> asciiList = createAsciiList();
+    private static List<Character> asciiList = createAsciiList();
 
     public String sort(String text) {
-        String lowerText = text.toLowerCase();
+        String normalizeText = normalizeText(text);
         String result = "";
 
         for (Character character : asciiList) {
-            int occurrence = countOccurrence(lowerText, character);
+            int occurrence = countOccurrence(normalizeText, character);
             result += getMatchedText(character, occurrence);
         }
         return result;
+    }
+
+    private String normalizeText(String text) {
+        return text.replaceAll("[^a-zA-Z]]","").toLowerCase();
     }
 
     private String getMatchedText(Character character, int occurrence) {
@@ -30,7 +34,7 @@ public class CharacterQuickSorting {
         return result;
     }
 
-    private List<Character> createAsciiList() {
+    private static List<Character> createAsciiList() {
         List<Character> ascii = new ArrayList<>(26);
 
         for (char c = 'a'; c <= 'z'; c++) {
