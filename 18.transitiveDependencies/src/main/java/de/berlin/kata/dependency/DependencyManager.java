@@ -23,6 +23,8 @@ public class DependencyManager {
             }
         }
 
+        // remove self.
+        dependencies.remove(start);
         Collections.sort(dependencies);
         return dependencies;
     }
