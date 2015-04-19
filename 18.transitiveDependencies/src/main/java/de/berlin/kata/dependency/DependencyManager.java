@@ -13,11 +13,11 @@ public class DependencyManager {
     public List<String> getDependencies(String start) {
         List<String> dependencies = new ArrayList<>(this.dependencyMap.get(start));
 
-        for(int i=0;i<dependencies.size();i++) {
+        for (int i = 0; i < dependencies.size(); i++) {
             String dependency = dependencies.get(i);
             List<String> transitiveDependencies = this.dependencyMap.get(dependency);
 
-            if (transitiveDependencies != null ) {
+            if (transitiveDependencies != null) {
                 dependencies.addAll(transitiveDependencies);
                 dependencies = getUniqueDependencies(dependencies);
             }

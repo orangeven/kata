@@ -27,7 +27,7 @@ public class DependencyManagerTest {
     }
 
     @Test
-    public void testBoundaryValues(){
+    public void testBoundaryValues() {
         DependencyManager dependencyManager = new DependencyManager();
 
         dependencyManager.addDependencies("A", new String[]{});
@@ -44,6 +44,6 @@ public class DependencyManagerTest {
 
         assertArrayEquals(new String[]{"B", "C"}, dependencyManager.getDependencies("A").toArray());
         assertArrayEquals(new String[]{"A", "C"}, dependencyManager.getDependencies("B").toArray());
-        assertArrayEquals(new String[]{"A","B"}, dependencyManager.getDependencies("C").toArray());
+        assertArrayEquals(new String[]{"A", "B"}, dependencyManager.getDependencies("C").toArray());
     }
 }
