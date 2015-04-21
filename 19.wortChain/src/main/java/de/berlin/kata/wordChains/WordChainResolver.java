@@ -12,7 +12,7 @@ public class WordChainResolver {
     WordService wordService;
     WordChainGraph graph;
 
-    public List<Transition> resolve(String startWord, String endWord) {
+    public void resolve(String startWord, String endWord) {
         Set<String> words = wordService.getWords(startWord.length());
 //        words.remove(startWord);
 
@@ -38,7 +38,7 @@ public class WordChainResolver {
 
 
 
-        return null;
+//        return null;
 
     }
 }

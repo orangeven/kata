@@ -9,34 +9,10 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 public class Node {
     Node previousNode;
     private String value;
-    private int weigh = 0;
-
-    public int getWeigh() {
-        return weigh;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public void setPreviousNode(Node previousNode) {
-        if (previousNode.weigh < weigh + 1) {
-            weigh = previousNode.weigh + 1;
-            this.previousNode = previousNode;
-        }
-    }
+    private int weight = 0;
 
     public Node(String word) {
         this.value = word;
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder().append(value).hashCode();
     }
 
     @Override
@@ -52,5 +28,35 @@ public class Node {
 
         Node other = (Node) obj;
         return new EqualsBuilder().append(other.value, value).isEquals();
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(value).hashCode();
+    }
+
+    public void reset() {
+        this.previousNode = null;
+        this.weight = 0;
+    }
+
+    // TODO add transition value
+    public void setPreviousNode(Node previousNode) {
+        if (previousNode.weight < weight + 1) {
+            weight = previousNode.weight + 1;
+            this.previousNode = previousNode;
+        }
     }
 }
