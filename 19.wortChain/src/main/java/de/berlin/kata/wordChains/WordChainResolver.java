@@ -1,6 +1,5 @@
 package de.berlin.kata.wordChains;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -11,7 +10,7 @@ import java.util.stream.Collectors;
 public class WordChainResolver {
 
     WordService wordService;
-    Graph graph;
+    WordChainGraph graph;
 
     public List<Transition> resolve(String startWord, String endWord) {
         Set<String> words = wordService.getWords(startWord.length());
