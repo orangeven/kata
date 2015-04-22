@@ -19,8 +19,6 @@ public class WordLoaderTest {
     public void createTestWords() throws IOException {
         String[] words = {"cat", "dog", "ab", "abcde"};
         Path filePath = new WordLoader().getWordListPath();
-        filePath.toFile().delete();
-
         writeWordsToFile(words, filePath);
     }
 
