@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public class WordLoader {
 
-    private final static Logger LOGGER = Logger.getLogger(WordLoader.class.getName());
+    private final static Logger log = Logger.getLogger(WordLoader.class.getName());
 
     public static final String WORD_LIST_FILE_NAME = "wordlist.txt";
     public static final Charset WORD_LIST_FILE_ENCODING = Charset.forName("ISO-8859-1");
@@ -31,6 +31,7 @@ public class WordLoader {
      * - wordLength < 0 => IllegalArgumentException
      */
     public Set<String> getWords(int wordLength) {
+        log.info("Loading words with length:" + wordLength+ " from file: "+ WORD_LIST_FILE_NAME);
         if (wordLength < 0) {
             throw new IllegalArgumentException("Argument: wordLength must be bigger than 0");
         }
@@ -55,6 +56,8 @@ public class WordLoader {
         } else {
             throw new IllegalStateException("'Unable to get the file: wordlist.txt");
         }
+
+        log.info("Found "+ words.size() +" words");
         return words;
     }
 
@@ -64,7 +67,7 @@ public class WordLoader {
             try {
                 return Paths.get(wordListUrl.toURI());
             } catch (URISyntaxException e) {
-                LOGGER.severe("Error while getting the file: " + WORD_LIST_FILE_NAME + " ! ERROR:" + e.getMessage());
+                log.severe("Error while getting the file: " + WORD_LIST_FILE_NAME + " ! ERROR:" + e.getMessage());
             }
         }
         return null;

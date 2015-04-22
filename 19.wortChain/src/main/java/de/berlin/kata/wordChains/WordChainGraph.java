@@ -3,16 +3,21 @@ package de.berlin.kata.wordChains;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 
 public class WordChainGraph {
+    private final static Logger log = Logger.getLogger(WordChainGraph.class.getName());
+
     private Set<Node> wordNodes;
 
     ITransitionRule transitionRule = new WordChainTransitionRule();
     private Map<Node, Set<Node>> transitions = new HashMap<>();
 
     public WordChainGraph(Set<String> words) {
+        log.info("Building the graph for word chain");
+
         Set<String> lowerCaseWords = new LinkedHashSet<>();
         words.stream().forEach(word -> {
             lowerCaseWords.add(word.toLowerCase());
@@ -20,6 +25,7 @@ public class WordChainGraph {
 
         wordNodes = createWordNodes(lowerCaseWords);
         createTransitions(wordNodes);
+        log.info("Finished the graph for word chain");
     }
 
     public String getBestPath(String startWord, String endWord) {

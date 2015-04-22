@@ -20,8 +20,6 @@ public class WordChainResolver {
         System.out.println(wordChainResolver.resolve("cat", "dog"));
         System.out.println("took time: "+ (System.currentTimeMillis() - start) + "ms");
 
-
-        //TODO add graph reusable ??
         start = System.currentTimeMillis();
         System.out.println(wordChainResolver.resolve("lead", "gold"));
         System.out.println("took time: "+ (System.currentTimeMillis() - start) + "ms");
