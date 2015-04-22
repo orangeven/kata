@@ -1,44 +1,33 @@
 package de.berlin.kata.wordChains;
 
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-/**
- * Created by quan on 16.04.15.
- */
 public class WordChainResolver {
 
-    WordService wordService;
+    WordLoader wordLoader = new WordLoader();
     WordChainGraph graph;
 
-    public void resolve(String startWord, String endWord) {
-        Set<String> words = wordService.getWords(startWord.length());
-//        words.remove(startWord);
-
-        Set<Node> nodes = words.stream().map(Node::new).collect(Collectors.toSet());
-
-        // build the graph. create all transations
-//        Set<Transition> transitions = new HashSet<>();
-//        for (Node node : nodes) {
-//            transitions.addAll(nodeService.createTransitions(node, nodes));
-//        }
-
-        // print transitions
-
-        // find the paths
-        Node startNode = new Node(startWord);
-        Set<Node> nextNodes = graph.getNextNodes(startNode);
-
-//        for(Transition transition: nextNodes) {
-//            Node toNode = transition.to;
-//            toNode.setVisited(true);
-//            toNode.setWeigh(1);
-//        }
+    public String resolve(String startWord, String endWord) {
+        Set<String> words = wordLoader.getWords(startWord.length());
+        graph = new WordChainGraph(words);
+        return graph.getBestPath(startWord, endWord);
+    }
 
 
+    public static void main(String[] args) {
+        long start = System.currentTimeMillis();
+        WordChainResolver wordChainResolver = new WordChainResolver();
+        System.out.println(wordChainResolver.resolve("cat", "dog"));
+        System.out.println("took time: "+ (System.currentTimeMillis() - start) + "ms");
 
-//        return null;
 
+        //TODO add graph reusable ??
+        start = System.currentTimeMillis();
+        System.out.println(wordChainResolver.resolve("lead", "gold"));
+        System.out.println("took time: "+ (System.currentTimeMillis() - start) + "ms");
+
+        start = System.currentTimeMillis();
+        System.out.println(wordChainResolver.resolve("ruby", "code"));
+        System.out.println("took time: " + (System.currentTimeMillis() - start) + "ms");
     }
 }
