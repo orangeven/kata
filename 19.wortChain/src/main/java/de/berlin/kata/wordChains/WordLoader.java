@@ -25,7 +25,6 @@ public class WordLoader {
 
 
     /**
-     *
      * returns
      * - wordLength > 0 => the set of the words from the file with the given wordLength
      * - wordLength == 0 => all words

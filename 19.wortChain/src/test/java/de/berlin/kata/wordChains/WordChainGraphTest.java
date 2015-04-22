@@ -9,10 +9,10 @@ import java.util.List;
 
 public class WordChainGraphTest {
 
-    private List<String> words = Arrays.asList("cat", "dog", "cot","cog", "CAA", "CBB", "CID", "cod");
+    private List<String> words = Arrays.asList("cat", "dog", "cot", "cog", "CAA", "CBB", "CID", "cod");
 
     @Test
-    public void testGetBestWordChainForCatAndDog(){
+    public void testGetBestWordChainForCatAndDog() {
         String startWord = "cat";
         String endWord = "dog";
 
@@ -20,22 +20,22 @@ public class WordChainGraphTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void lengthOfStartWordAndEndWordShouldBeTheSame(){
+    public void lengthOfStartWordAndEndWordShouldBeTheSame() {
         new WordChainGraph(new HashSet<>(words)).getBestPath("ab", "a");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void startWordShouldNotBeBlank(){
+    public void startWordShouldNotBeBlank() {
         new WordChainGraph(new HashSet<>(words)).getBestPath("", "a");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void endWordShouldNotBeBlank(){
+    public void endWordShouldNotBeBlank() {
         new WordChainGraph(new HashSet<>(words)).getBestPath("ab", "");
     }
 
     @Test
-    public void emptyStringShouldBeReturnedIfStartWordDoesNotExistInTheWordList(){
+    public void emptyStringShouldBeReturnedIfStartWordDoesNotExistInTheWordList() {
         Assert.assertEquals("", new WordChainGraph(new HashSet<>(words)).getBestPath("ab", "ba"));
     }
 }
