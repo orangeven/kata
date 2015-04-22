@@ -3,16 +3,29 @@ package de.berlin.kata.wordChains;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-/**
- * Created by quan on 16.04.15.
- */
+
 public class Node {
-    Node previousNode;
+    Node parentNode;
     private String value;
     private int weight = 0;
 
     public Node(String word) {
         this.value = word;
+    }
+
+    public Node getParentNode() {
+        return parentNode;
+    }
+
+    // TODO add transition value
+    public void setParentNode(Node parentNode) {
+        if (parentNode != null) {
+            int neuWeight = parentNode.weight + 1;
+            if (weight == 0 || neuWeight < weight) {
+                weight = parentNode.weight + 1;
+                this.parentNode = parentNode;
+            }
+        }
     }
 
     @Override
@@ -48,15 +61,12 @@ public class Node {
     }
 
     public void reset() {
-        this.previousNode = null;
+        this.parentNode = null;
         this.weight = 0;
     }
 
-    // TODO add transition value
-    public void setPreviousNode(Node previousNode) {
-        if (previousNode.weight < weight + 1) {
-            weight = previousNode.weight + 1;
-            this.previousNode = previousNode;
-        }
+    @Override
+    public String toString() {
+        return value + " : " + weight;
     }
 }

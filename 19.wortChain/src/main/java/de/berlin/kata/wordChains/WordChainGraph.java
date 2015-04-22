@@ -1,19 +1,9 @@
 package de.berlin.kata.wordChains;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Created by quan on 16.04.15.
- */
+
 public class WordChainGraph {
     private Set<Node> wordNodes;
 
@@ -21,7 +11,12 @@ public class WordChainGraph {
     private Map<Node, Set<Node>> transitions = new HashMap<>();
 
     public WordChainGraph(Set<String> words) {
-        wordNodes = createWordNodes(words);
+        Set<String> lowerCaseWords = new LinkedHashSet<>();
+        words.stream().forEach(word -> {
+            lowerCaseWords.add(word.toLowerCase());
+        });
+
+        wordNodes = createWordNodes(lowerCaseWords);
         createTransitions(wordNodes);
     }
 
@@ -30,38 +25,53 @@ public class WordChainGraph {
 
         Set<Node> visitedNodes = new HashSet<>();
         Queue<Node> nodeQueue = new LinkedList<>();
-        nodeQueue.add(new Node(startWord));
-
+        nodeQueue.add(new Node(startWord.toLowerCase()));
+        Node endNode = null;
 
         while (!nodeQueue.isEmpty()) {
-            Node parentNode = nodeQueue.peek();
-            visitedNodes.add(parentNode);
-            Set<Node> nextNodes = transitions.get(parentNode);
-            if (nextNodes != null) {
-//                nodeQueue.addAll(nextNodes);
-                for (Node nextNode : nextNodes) {
-                    if(!visitedNodes.contains(nextNode)) {
-                        nextNode.setPreviousNode(parentNode);
-                        visitedNodes.add(nextNode) ;
+            Node currentNode = nodeQueue.remove();
 
-                    }
+            Set<Node> childNodes = getUnvisitedChildNodes(currentNode, visitedNodes);
+
+            for (Node childNode : childNodes) {
+                childNode.setParentNode(currentNode);
+                if (!nodeQueue.contains(childNode)) {
+                    nodeQueue.add(childNode);
                 }
+            }
+
+            visitedNodes.add(currentNode);
+            if (currentNode.getValue().equals(endWord)) {
+                endNode = currentNode;
             }
         }
 
+        List<Node> bestPath = getBestPath(endNode);
+        return bestPath.stream().map(Node::getValue).collect(Collectors.joining(", "));
+    }
 
+    private Set<Node> getUnvisitedChildNodes(Node currentNode, Set<Node> visitedNodes) {
+        Set<Node> childNodes = transitions.get(currentNode);
+        if (childNodes != null) {
+            childNodes.removeAll(visitedNodes);
+        } else {
+            childNodes = new LinkedHashSet<>();
+        }
+        return childNodes;
+    }
 
-        /*
-        get next nodes
-
-        nextNodes.setParent if not yet visited
-
-        nextNodes.removeVisitedNodes
-
-
-         */
-
-        return "";
+    private List<Node> getBestPath(Node endNode) {
+        List<Node> bestPath = new ArrayList<>();
+        if (endNode != null) {
+            bestPath.add(endNode);
+            Node parentNode;
+            while ((parentNode = endNode.getParentNode()) != null) {
+                bestPath.add(parentNode);
+                endNode = parentNode;
+            }
+            Collections.reverse(bestPath);
+        }
+        return bestPath;
     }
 
     private void resetNodeWeights() {
@@ -83,29 +93,19 @@ public class WordChainGraph {
         }
     }
 
-
     private List<Set<Node>> groupNodesByLength(Set<Node> wordNodes) {
-        Map<Integer, Set<Node>> nodeLengthMap = wordNodes.stream().collect(Collectors.groupingBy(word -> word.getValue().length(), Collectors.toSet()));
+        Map<Integer, Set<Node>> nodeLengthMap = wordNodes.stream()
+                .collect(Collectors.groupingBy(word -> word.getValue().length(), Collectors.toSet()));
         return new ArrayList<>(nodeLengthMap.values());
     }
 
-    private Set<Node> createTransitionFromNode(Node startNode, Set<Node> subNodes) {
-        //TODO name
-        Set<Node> transitionNodes = new LinkedHashSet<>();
-        for (Node node2 : subNodes) {
-            if (!startNode.equals(node2) && transitionRule.hasTransition(startNode, node2)) {
-                transitionNodes.add(node2);
+    private Set<Node> createTransitionFromNode(Node parentNode, Set<Node> subNodes) {
+        Set<Node> childNodes = new LinkedHashSet<>();
+        for (Node childNode : subNodes) {
+            if (!parentNode.equals(childNode) && transitionRule.hasTransition(parentNode, childNode)) {
+                childNodes.add(childNode);
             }
         }
-        return transitionNodes;
+        return childNodes;
     }
-
-//    private Set<Node> getWordsWithLength(final int wordLength) {
-//        return wordNodes.stream().filter(node -> wordLength == node.getValue().length()).collect(Collectors.toSet());
-//    }
-
-    public Set<Node> getNextNodes(Node node) {
-        return transitions.get(node);
-    }
-
 }
