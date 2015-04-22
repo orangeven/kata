@@ -1,5 +1,7 @@
 package de.berlin.kata.wordChains;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,6 +23,14 @@ public class WordChainGraph {
     }
 
     public String getBestPath(String startWord, String endWord) {
+        if (StringUtils.isBlank(startWord) || StringUtils.isBlank(endWord)) {
+            throw new IllegalArgumentException("startWord and endWord must not be null or blank!");
+        } else if (startWord.length() != endWord.length()) {
+            throw new IllegalArgumentException("length of startWord and endWord must be the same!");
+        } else if (!wordNodes.contains(new Node(startWord)) || !wordNodes.contains(new Node(endWord))) {
+            return "";
+        }
+
         resetNodeWeights();
 
         Set<Node> visitedNodes = new HashSet<>();
