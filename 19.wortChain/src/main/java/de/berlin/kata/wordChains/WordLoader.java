@@ -16,8 +16,8 @@ public class WordLoader {
 
     private final static Logger LOGGER = Logger.getLogger(WordLoader.class.getName());
 
-    private static final String WORD_LIST_FILE_NAME = "wordlist.txt";
-    private static final Charset WORD_LIST_FILE_ENCODING = Charset.forName("ISO-8859-1");
+    public static final String WORD_LIST_FILE_NAME = "wordlist.txt";
+    public static final Charset WORD_LIST_FILE_ENCODING = Charset.forName("ISO-8859-1");
 
     public Set<String> getWords() {
         return getWords(0);
@@ -59,7 +59,7 @@ public class WordLoader {
         return words;
     }
 
-    private Path getWordListPath() {
+    public Path getWordListPath() {
         URL wordListUrl = WordLoader.class.getClassLoader().getResource(WORD_LIST_FILE_NAME);
         if (wordListUrl != null) {
             try {
