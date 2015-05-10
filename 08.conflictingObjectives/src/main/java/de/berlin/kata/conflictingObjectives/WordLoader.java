@@ -64,7 +64,7 @@ public class WordLoader {
             throw new IllegalStateException("'Unable to get the file: wordlist.txt");
         }
 
-        log.info("Found " + words.size() + " words");
+        log.info("Found " + words.size() + " words with length: " + wordLength);
         cachedResult.put(wordLength, words);
         return words;
     }
