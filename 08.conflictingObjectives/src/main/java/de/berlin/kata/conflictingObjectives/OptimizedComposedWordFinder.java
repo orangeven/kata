@@ -1,12 +1,9 @@
 package de.berlin.kata.conflictingObjectives;
 
-import org.apache.commons.lang.StringUtils;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 public class OptimizedComposedWordFinder {
@@ -16,7 +13,7 @@ public class OptimizedComposedWordFinder {
     private Map<Integer, Set<String>> wordMap;
 
     public Set<String> getComposedWords() {
-        wordMap = wordLoader.getWords(new HashSet<>(Arrays.asList(1,2,3,4,5,6)));
+        wordMap = wordLoader.getWords(new HashSet<>(Arrays.asList(1, 2, 3, 4, 5, 6)));
         Set<String> composedWords = new HashSet<>();
 
         Set<String> wordsWith6Length = wordMap.get(6);
