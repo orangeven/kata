@@ -6,20 +6,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class OptimizedComposedWordFinder {
     private final static Logger log = Logger.getLogger(ReadableComposedWordFinder.class.getName());
     private WordLoader wordLoader = new WordLoader();
     // Map of WordLength and Words
-    private Map<Integer, Set<String>> wordMap = new HashMap<>();
+    private Map<Integer, Set<String>> wordMap;
 
     public Set<String> getComposedWords() {
-        initWords();
+        wordMap = wordLoader.getWords(new HashSet<>(Arrays.asList(1,2,3,4,5,6)));
         Set<String> composedWords = new HashSet<>();
 
         Set<String> wordsWith6Length = wordMap.get(6);
@@ -30,28 +27,6 @@ public class OptimizedComposedWordFinder {
         }
 
         return composedWords;
-    }
-
-    private void initWords() {
-        for (int i = 1; i <= 6; i++) {
-            wordMap.put(i, new HashSet<>());
-        }
-
-        Path wordListFilePath = wordLoader.getWordListPath();
-        if (wordListFilePath != null) {
-            try {
-                String line;
-                BufferedReader reader = Files.newBufferedReader(wordListFilePath, wordLoader.WORD_LIST_FILE_ENCODING);
-                while ((line = reader.readLine()) != null) {
-                    if (line.length() >= 1 && line.length() <= 6) {
-                        wordMap.get(line.length()).add(line);
-                    }
-                }
-            } catch (IOException e) {
-                throw new IllegalStateException("Error while reading the file: wordlist.txt ! ERROR:" + e.getMessage());
-            }
-        }
-
     }
 
     private boolean isComposedWord(String word) {

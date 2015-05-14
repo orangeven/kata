@@ -69,6 +69,44 @@ public class WordLoader {
         return words;
     }
 
+    public Map<Integer, Set<String>> getWords(Set<Integer> wordLengths){
+        if (wordLengths==null ||  wordLengths.isEmpty()) {
+            throw new IllegalArgumentException("Argument: wordLengths is required!");
+        }
+
+        Map<Integer, Set<String>> wordMap  = new HashMap<>();
+      for (int i = 1; i <= 6; i++) {
+        wordMap.put(i, new HashSet<>());
+      }
+
+        log.fine("Loading words with length:" + wordLengths + " from file: " + WORD_LIST_FILE_NAME);
+        Path wordListFilePath = getWordListPath();
+
+        if (wordListFilePath != null) {
+            try {
+                String line;
+                BufferedReader reader = Files.newBufferedReader(wordListFilePath, WORD_LIST_FILE_ENCODING);
+                while ((line = reader.readLine()) != null) {
+                    if (StringUtils.isNotBlank(line)) {
+                        if(wordLengths.contains(line.length())){
+                          wordMap.get(line.length()).add(line);
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                throw new IllegalStateException("Error while reading the file: wordlist.txt ! ERROR:" + e.getMessage());
+            }
+        } else {
+            throw new IllegalStateException("'Unable to get the file: wordlist.txt");
+        }
+
+      wordMap.entrySet().forEach( (entry) -> {
+        log.info("Found " + entry.getValue().size() + " words with length: " + entry.getKey());
+        cachedResult.put(entry.getKey(),entry.getValue());
+      });
+      return wordMap;
+    }
+
     protected Path getWordListPath() {
         URL wordListUrl = WordLoader.class.getClassLoader().getResource(WORD_LIST_FILE_NAME);
         if (wordListUrl != null) {
